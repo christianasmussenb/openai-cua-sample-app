@@ -72,7 +72,8 @@ def main():
 
             while True:  # keep looping until we get a final response
                 response = create_response(
-                    model="computer-use-preview",
+                    # model="computer-use-preview",
+                    model = "gpt-4o",
                     input=items,
                     tools=tools,
                     truncation="auto",
