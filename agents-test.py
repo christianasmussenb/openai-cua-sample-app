@@ -1,8 +1,12 @@
 from dotenv import load_dotenv
 import os
+import logging
 
 # Cargar las variables de entorno desde el archivo .env
 load_dotenv()
+
+# Configurar el logging
+logging.basicConfig(level=logging.ERROR, filename="errors.log", format="%(asctime)s - %(levelname)s - %(message)s")
 
 # Verificar que la variable OPENAI_API_KEY esté cargada
 assert os.getenv("OPENAI_API_KEY"), "La variable de entorno OPENAI_API_KEY no está configurada"
@@ -53,9 +57,28 @@ triage_agent = Agent(
 )
 
 async def main():
-    result = await Runner.run(triage_agent, "What is the Pythagorean theorem?")
-    print(result.final_output)
+    print("📚 Bienvenido al tutor de IA. Escribe tu pregunta o 'exit' para salir.")
+    while True:
+        user_input = input("📝 Tu pregunta: ").strip()
+        if user_input.lower() == "exit":
+            print("👋 ¡Hasta luego!")
+            break
+
+        try:
+            result = await Runner.run(triage_agent, user_input)
+            print(f"🤖 Respuesta: {result.final_output}")
+        except asyncio.TimeoutError:
+            logging.error("⏳ Error: La solicitud tomó demasiado tiempo.")
+            print("⏳ Error: La solicitud tomó demasiado tiempo.")
+        except ConnectionError:
+            logging.error("🚫 Error: No se pudo conectar a la API.")
+            print("🚫 Error: No se pudo conectar a la API.")
+        except ValueError as ve:
+            logging.error(f"❗ Error de valor: {ve}")
+            print(f"❗ Error de valor: {ve}")
+        except Exception as e:
+            logging.error(f"⚠️ Error inesperado en main(): {e}")
+            print("⚠️ Ocurrió un error. Revisa el log 'errors.log' para más detalles.")
 
 if __name__ == "__main__":
     asyncio.run(main())
-
