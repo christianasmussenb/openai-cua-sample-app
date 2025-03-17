@@ -51,9 +51,7 @@ def create_response(**kwargs):
     url = "https://api.openai.com/v1/responses"
     headers = {
         "Authorization": f"Bearer {os.getenv('OPENAI_API_KEY')}",
-        "Content-Type": "application/json",
-        # TODO: remove for launch
-        "Openai-beta": "responses=v1",
+        "Content-Type": "application/json"
     }
 
     openai_org = os.getenv("OPENAI_ORG")

@@ -21,6 +21,9 @@ Run CLI to let CUA use a local browser window, using [playwright](https://playwr
 python cli.py --computer local-playwright
 ```
 
+> [!NOTE]  
+> The first time you run this, if you haven't used Playwright before, you will be prompted to install dependencies. Execute the command suggested, which will depend on your OS.
+
 Other included sample [computer environments](#computer-environments):
 
 - [Docker](https://docker.com/) (containerized desktop)
