@@ -1,0 +1,3 @@
+[submodule ".playbook"]
+	path = .playbook
+	url = https://github.com/christianasmussenb/dev-playbook.git
